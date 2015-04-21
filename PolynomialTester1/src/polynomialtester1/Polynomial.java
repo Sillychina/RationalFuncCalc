@@ -77,8 +77,8 @@ public class Polynomial {
         return (new Polynomial(ans));
     }
     
-//    public Polynomial divPolynomial (Polynomial p){
-//        
-//        int counter = 
-//    }
+    public Polynomial divPolynomial (Polynomial p){
+        
+        int counter = 
+    }
 }
