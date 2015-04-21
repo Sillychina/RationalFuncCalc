@@ -10,10 +10,6 @@ package polynomialtester1;
  * @author Sillychina
  */
 public class PolynomialTester1 {
-
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         double[] b = {1,1};
         double[] c = {1,1};
