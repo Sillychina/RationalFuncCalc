@@ -12,37 +12,58 @@ package polynomialtester1;
 public class Polynomial {
 
     double[] arguments, roots;
+    Polynomial fdiv, sdiv;
 
     public Polynomial(double[] a) {
         arguments = a;
     }
 
     public Polynomial addPolynomial(Polynomial p) {
-
-        int diff = Math.abs(this.arguments.length - p.arguments.length);
         
+        int t = this.arguments.length;
+        int f = p.arguments.length;
+        int min = Math.min(t,f);
+        int max = Math.max(t,f);
         
+        double[] ans = new double[max];
+        for (int i = 0; i < min; i++) {
+            ans[i] = this.arguments[i] + p.arguments[i];
+        }
+        if (t>f) {
+            for (int i = f; i < t; i++) {
+                ans[i] = this.arguments[i];
+            }
+        }
+        else{
+            for (int i = t; i < f; i++) {
+                ans[i] = p.arguments[i];
+            }
+        }
+        return (new Polynomial(ans));
     }
     
     public Polynomial subPolynomial(Polynomial p) {
         
-        double[] ans = new double[Math.max(this.arguments.length, p.arguments.length)];
-        int diff = this.arguments.length - p.arguments.length;
-        if (diff > 0) {
-            for (int i = 0; i < p.arguments.length; i++) {
-                ans[i + diff] = this.arguments[i + diff] - p.arguments[i];
+        int t = this.arguments.length;
+        int f = p.arguments.length;
+        int min = Math.min(t,f);
+        int max = Math.max(t,f);
+        
+        double[] ans = new double[max];
+        for (int i = 0; i < min; i++) {
+            ans[i] = this.arguments[i] - p.arguments[i];
+        }
+        if (t>f) {
+            for (int i = f; i < t; i++) {
+                ans[i] = this.arguments[i];
             }
         }
         else{
-            for (int i = 0; i < diff; i++) {
+            for (int i = t; i < f; i++) {
                 ans[i] = -p.arguments[i];
             }
-            for (int i = -diff; i < p.arguments.length; i++) {
-                ans[i] = this.arguments[i+diff] - p.arguments[i];
-            }
         }
-        Polynomial ansp = new Polynomial(ans);
-        return ansp;
+        return (new Polynomial(ans));
     }
     
     public Polynomial multPolynomial(Polynomial p){
@@ -64,8 +85,23 @@ public class Polynomial {
         return (new Polynomial(ans));
     }
     
-    public Polynomial divPolynomial (Polynomial p){
-        
-        int counter = p.arguments.length - this.arguments.length;
+    public Polynomial[] divPolynomial (Polynomial p){
+        Polynomial[] ans = new Polynomial[2];
+        int t = this.arguments.length;
+        int f = p.arguments.length;
+        int counter = f - t;
+        double[] remainder = p.arguments.clone();
+        double[] quotient = new double[counter + 1];
+        double lead = this.arguments[t-1];
+        for (int i = 0; i<=counter; i++) {
+            quotient[counter-i] = remainder[(f-1)-i]/lead;
+            for (int j = 0; j < t; j++) {
+                double end = this.arguments[(t-1)-j] * quotient[counter-i];
+                remainder[(f-1)-i-j] = remainder[(f-1)-i-j] - end;
+            }
+        }
+        ans[0] = new Polynomial(quotient);
+        ans[1] = new Polynomial(remainder);
+        return ans;
     }
 }
