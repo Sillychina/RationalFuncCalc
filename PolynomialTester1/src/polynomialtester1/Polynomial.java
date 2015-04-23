@@ -17,6 +17,10 @@ public class Polynomial {
     public Polynomial(double[] a) {
         arguments = a;
     }
+    
+    public Polynomial(String s) {
+        this(Input.parse(s).arguments);
+    }
 
     public Polynomial addPolynomial(Polynomial p) {
         
