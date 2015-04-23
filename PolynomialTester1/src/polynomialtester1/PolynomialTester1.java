@@ -17,8 +17,8 @@ public class PolynomialTester1 {
         Polynomial d = new Polynomial(c);
         
         Polynomial added = d.multPolynomial(a);
-        for (int i = 0; i < added.arguements.length; i++) {
-            System.out.println(added.arguements[i]);
+        for (int i = 0; i < added.arguments.length; i++) {
+            System.out.println(added.arguments[i]);
         }
     }
     
