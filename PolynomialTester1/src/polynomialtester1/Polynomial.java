@@ -105,4 +105,13 @@ public class Polynomial {
         ans[1] = new Polynomial(remainder);
         return ans;
     }
+    
+    public Polynomial derivative() {
+        double[] result = new double[arguments.length - 1];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = arguments[i+1] * (i + 1);
+        }
+        
+        return new Polynomial(result);
+    }
 }

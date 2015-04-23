@@ -11,14 +11,13 @@ package polynomialtester1;
  */
 public class PolynomialTester1 {
     public static void main(String[] args) {
-        double[] b = {1,1};
-        double[] c = {1,1};
-        Polynomial a = new Polynomial(b);
-        Polynomial d = new Polynomial(c);
-        
-        Polynomial added = d.multPolynomial(a);
-        for (int i = 0; i < added.arguments.length; i++) {
-            System.out.println(added.arguments[i]);
+        Polynomial a = Input.parse("5x^2+3");
+        Polynomial b = a.derivative();
+        for (int i = a.arguments.length - 1; i > -1; i--) {
+            System.out.println(a.arguments[i] + "x^" + i);
+        }
+        for (int i = b.arguments.length - 1; i > -1; i--) {
+            System.out.println(b.arguments[i] + "x^" + i);
         }
     }
     

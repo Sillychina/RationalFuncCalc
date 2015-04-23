@@ -67,7 +67,6 @@ public class Input {
     for (int i = 0; i < size; i++) {
         result[exponents.get(i)] += coefficients.get(i);
     }
-    System.out.println(result);
     return new Polynomial(result);
     }
 }
