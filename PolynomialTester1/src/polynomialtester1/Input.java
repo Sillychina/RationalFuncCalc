@@ -1,24 +1,74 @@
 package polynomialtester1;
 
+import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 public class Input {
     
-    Pattern factoredForm = Pattern.compile("(?:\\(-?\\d+(?\\.\\d+)x\\+|-\\d+(?:\\.\\d+)?\\))+"); // Matches a product of binomials
-    Pattern generalForm = Pattern.compile("\\+|\\-(?:\\d+(?:\\.\\d+)?(?:x(?://^//d+(?://.//d+)?)))+"); // Matches a sum or difference of exponents
-    
-    public double[] parse(String s) {
-        // Check for valid input
-        if (s.matches(factoredForm)) {
-            // Factored form
-            Scanner s;
-            
-        } else if (s.matches(generalForm)) {
-            // General form
-        } else {
-            System.out.println("Invalid input")
-            return {};
+
+    public static Polynomial parse(String arg) {
+        // strip any spaces
+        arg = arg.replace(" ", "");
+        // Split into terms
+        
+        
+        ArrayList<Polynomial> factors = new ArrayList<>(); // treat each term as a polynomial
+
+        // Factored form
+        Scanner terms = new Scanner(arg);
+        terms.useDelimiter("\\)\\(");
+        while (terms.hasNext()) {
+            String term = terms.next();
+            // Remove any extra brackets
+            term = term.replace("(", "");
+            term = term.replace(")", "");
+            factors.add(parseGeneral(term)); // Add the current term to the list of terms
         }
+        terms.close();
+
+        Polynomial result = factors.get(0);
+        int size = factors.size();
+        for (int i = 1; i < size; i++) {
+            result = result.multPolynomial(factors.get(i)); // multiply all the terms together
+        }
+        return result;
+            
+            
+    }
+    
+    private static Polynomial parseGeneral(String arg) {
+    ArrayList<Double> coefficients = new ArrayList<>(); // Arraylist of coefficients
+    ArrayList<Integer> exponents = new ArrayList<>(); // Arraylist of exponents
+    String signed = (arg.charAt(0) != '-' && arg.charAt(0) != '+') ? arg : "+" + arg;
+
+    int expMax = 0; // Highest exponent in the function
+    Scanner terms = new Scanner(arg);
+    terms.useDelimiter("\\+|-");
+    while (terms.hasNext()) {
+        String term = terms.next();
+        int index = term.indexOf('x');
+        if (index == -1) {
+            coefficients.add(Double.parseDouble(term));
+            exponents.add(0);
+        } else {
+            String coe = index == 0 ? "1" : term.substring(0, index); // Coefficient or 1 if omitted
+            String exp = term.indexOf('^') == -1 ? "0" : term.substring(index + 2, term.length()); // Exponent or 0 if no caret
+            int exponent = Integer.parseInt(exp);
+            if (exponent > expMax) expMax = exponent;
+            coefficients.add(Double.parseDouble(coe));
+            exponents.add(Integer.parseInt(exp));
+        }   
+    }
+    terms.close();
+
+    // Create array
+    double[] result = new double[expMax + 1];
+    int size = coefficients.size();
+    for (int i = 0; i < size; i++) {
+        result[exponents.get(i)] += coefficients.get(i);
+    }
+    System.out.println(result);
+    return new Polynomial(result);
     }
 }
+
