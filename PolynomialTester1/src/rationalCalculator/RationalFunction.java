@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package polynomialtester1;
+package rationalCalculator;
 
 /**
  *
@@ -18,8 +18,8 @@ public class RationalFunction {
     }
     
     public RationalFunction derivative() {
-        Polynomial top = numerator.derivPolynomial().multPolynomial(denominator).subPolynomial(numerator.multPolynomial(denominator.derivPolynomial()));
-        Polynomial bottom = denominator.multPolynomial(denominator);
+        Polynomial top = numerator.derivative().muliply(denominator).subtract(numerator.muliply(denominator.derivative()));
+        Polynomial bottom = denominator.muliply(denominator);
         return new RationalFunction(top, bottom);
     }
 }

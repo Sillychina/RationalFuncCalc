@@ -1,4 +1,4 @@
-package polynomialtester1;
+package rationalCalculator;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -29,7 +29,7 @@ public class Input {
         Polynomial result = factors.get(0);
         int size = factors.size();
         for (int i = 1; i < size; i++) {
-            result = result.multPolynomial(factors.get(i)); // multiply all the terms together
+            result = result.muliply(factors.get(i)); // multiply all the terms together
         }
         return result;
             
