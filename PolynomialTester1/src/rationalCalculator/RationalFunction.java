@@ -22,6 +22,14 @@ public class RationalFunction {
         return new RationalFunction(numerator.subtract(p.multiply(denominator)), denominator);
     }
     
+    public RationalFunction multiply(Polynomial p) {
+        return new RationalFunction(numerator.multiply(p), denominator.multiply(p));
+    }
+    
+    public RationalFunction multiply(RationalFunction r) {
+        return new RationalFunction(numerator.multiply(r.numerator), denominator.multiply(r.denominator));
+    }
+    
     @Override
     public String toString() {
         return "(" + numerator.toString() + ")/(" + denominator.toString() + ")";
