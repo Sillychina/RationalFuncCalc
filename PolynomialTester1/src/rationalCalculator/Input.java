@@ -8,10 +8,11 @@ public class Input {
 
     public static Polynomial parse(String arg) {
         // strip any spaces
-        arg = arg.replace(" ", "");
-        // Split into terms
+        arg = arg.replaceAll(" ", "");
         
-        
+        // replace uppercase x with lowercase
+        arg = arg.replaceAll("X", "x");
+            
         ArrayList<Polynomial> factors = new ArrayList<>(); // treat each term as a polynomial
 
         // Factored form
@@ -52,7 +53,14 @@ public class Input {
             exponents.add(0);
         } else {
             String coe = index == 0 ? "1" : term.substring(0, index); // Coefficient or 1 if omitted
-            String exp = term.indexOf('^') == -1 ? "0" : term.substring(index + 2, term.length()); // Exponent or 0 if no caret
+            String exp; // Exponent, or 1 if no exponent, or 0 if no x
+            if (term.indexOf('x') == -1) {
+                exp = "0";
+            } else if (term.indexOf('^') == -1) {
+                exp = "1";
+            } else {
+                exp = term.substring(index + 2, term.length());
+            }
             int exponent = Integer.parseInt(exp);
             if (exponent > expMax) expMax = exponent;
             coefficients.add(Double.parseDouble(coe));
