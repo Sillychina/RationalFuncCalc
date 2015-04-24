@@ -9,9 +9,17 @@ public class RationalFunction {
     }
     
     public RationalFunction derivative() {
-        Polynomial top = numerator.derivative().muliply(denominator).subtract(numerator.muliply(denominator.derivative()));
-        Polynomial bottom = denominator.muliply(denominator);
+        Polynomial top = numerator.derivative().multiply(denominator).subtract(numerator.multiply(denominator.derivative()));
+        Polynomial bottom = denominator.multiply(denominator);
         return new RationalFunction(top, bottom);
+    }
+    
+    public RationalFunction add(Polynomial p) {
+        return new RationalFunction(numerator.add(p.multiply(denominator)), denominator);
+    }
+    
+    public RationalFunction subtract(Polynomial p) {
+        return new RationalFunction(numerator.subtract(p.multiply(denominator)), denominator);
     }
     
     @Override

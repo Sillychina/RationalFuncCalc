@@ -65,7 +65,7 @@ public class Polynomial {
         return new Polynomial(ans);
     }
 
-    public Polynomial muliply(Polynomial p) {
+    public Polynomial multiply(Polynomial p) {
 
         int t = this.arguments.length;
         int f = p.arguments.length;
