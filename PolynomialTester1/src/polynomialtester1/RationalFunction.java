@@ -18,7 +18,7 @@ public class RationalFunction {
     }
     
     public RationalFunction derivative() {
-        Polynomial top = numerator.derivative().multPolynomial(denominator).subPolynomial(numerator.multPolynomial(denominator.derivative()));
+        Polynomial top = numerator.derivPolynomial().multPolynomial(denominator).subPolynomial(numerator.multPolynomial(denominator.derivPolynomial()));
         Polynomial bottom = denominator.multPolynomial(denominator);
         return new RationalFunction(top, bottom);
     }
