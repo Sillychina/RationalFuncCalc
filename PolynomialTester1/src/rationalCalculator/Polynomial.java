@@ -128,10 +128,17 @@ public class Polynomial {
     public String toString() {
         String poly;
         int last = this.arguments.length - 1;
-        poly = "" + this.arguments[last] + "x^" + last;
+        if (last == 0) {
+            poly = prettyInt(this.arguments[last]);
+        } else if (last == 1) {
+            poly = prettyInt(this.arguments[last]) + "x";
+        } else {
+            poly = prettyInt(this.arguments[last]) + "x^" + last;
+        }
         
         for (int i = (this.arguments.length - 2); i > 1; i--) {
             if (this.arguments[i] > 0) {
+                System.out.println("Here");
                 poly += "+" + prettyInt(this.arguments[i]) + "x^" + i;
             }
             else if (this.arguments[i] < 0){
