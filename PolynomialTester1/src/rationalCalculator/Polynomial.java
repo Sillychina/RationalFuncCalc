@@ -156,6 +156,9 @@ public class Polynomial {
         } else if (this.arguments[0] < 0 && this.arguments.length > 1){
             poly += prettyInt(this.arguments[0]);
         }  
+        
+        poly = poly.replaceAll("-", " - ");
+        poly = poly.replaceAll("\\+", " + ");
         return poly;
     }
 }

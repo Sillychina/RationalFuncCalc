@@ -10,6 +10,11 @@ public class Input {
         // strip any spaces
         arg = arg.replaceAll(" ", "");
         
+        // replace any -'s with +- for parsing purposes.
+        arg = arg.replaceAll("-", "\\+-");
+        if (arg.charAt(0) == '+') arg = arg.substring(1);
+        
+        
         // replace uppercase x with lowercase
         arg = arg.replaceAll("X", "x");
             
@@ -44,7 +49,7 @@ public class Input {
 
     int expMax = 0; // Highest exponent in the function
     Scanner terms = new Scanner(arg);
-    terms.useDelimiter("\\+|-");
+    terms.useDelimiter("\\+");
     while (terms.hasNext()) {
         String term = terms.next();
         int index = term.indexOf('x');
