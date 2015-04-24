@@ -8,7 +8,10 @@ public class Polynomial {
 
     public Polynomial(double[] a) {
         arguments = a;
-        //Function here to get roots
+    }
+    
+    public Polynomial(String s) {
+        this(Input.parse(s).arguments);
     }
 
     public double evaluate(double x) {
