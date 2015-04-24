@@ -62,7 +62,7 @@ public class Polynomial {
                 ans[i] = -p.arguments[i];
             }
         }
-        return (new Polynomial(ans));
+        return new Polynomial(ans);
     }
 
     public Polynomial muliply(Polynomial p) {
@@ -81,7 +81,7 @@ public class Polynomial {
                 ans[i + j] = ans[i + j] + (this.arguments[i] * p.arguments[j]);
             }
         }
-        return (new Polynomial(ans));
+        return new Polynomial(ans);
     }
 
     public Polynomial[] divide(Polynomial p) {
@@ -116,6 +116,10 @@ public class Polynomial {
         Polynomial polyAns = new Polynomial(ans);
         return polyAns;
     }
+    
+    private String prettyInt(double d) { // Strip decimals from integers stored as doubles for prettier toString
+        return d == Math.round(d) ? "" + Math.round(d) : "" + d;
+    }
 
     @Override
     public String toString() {
@@ -123,19 +127,24 @@ public class Polynomial {
         int last = this.arguments.length - 1;
         poly = "" + this.arguments[last] + "x^" + last;
         
-        for (int i = (this.arguments.length - 2); i > 0; i--) {
+        for (int i = (this.arguments.length - 2); i > 1; i--) {
             if (this.arguments[i] > 0) {
-                poly += "+" + this.arguments[i] + "x^" + i;
+                poly += "+" + prettyInt(this.arguments[i]) + "x^" + i;
             }
             else if (this.arguments[i] < 0){
-                poly += "" + this.arguments[i] + "x^" + i;
+                poly += prettyInt(this.arguments[i]) + "x^" + i;
             }  
         }
+        if (this.arguments[1] > 0) {
+            poly += "+" + prettyInt(this.arguments[1]) + "x";
+        } else if (this.arguments[1] < 0) {
+            poly += prettyInt(this.arguments[1]) + "x";
+        }
         if (this.arguments[0] > 0) {
-            poly += "+" + this.arguments[0];
+            poly += "+" + prettyInt(this.arguments[0]);
         }
         else if (this.arguments[0] < 0){
-            poly += "" + this.arguments[0];
+            poly += prettyInt(this.arguments[0]);
         }  
         return poly;
     }
