@@ -7,6 +7,10 @@ public class PolynomialTester1 {
         Polynomial c = a.add(b);
         System.out.println(c);
         System.out.println(c.derivative());
+        
+        RationalFunction d = new RationalFunction(a, b);
+        System.out.println(d);
+        System.out.println(d.derivative());
     }
     
 }

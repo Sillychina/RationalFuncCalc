@@ -138,22 +138,22 @@ public class Polynomial {
         
         for (int i = (this.arguments.length - 2); i > 1; i--) {
             if (this.arguments[i] > 0) {
-                System.out.println("Here");
                 poly += "+" + prettyInt(this.arguments[i]) + "x^" + i;
             }
             else if (this.arguments[i] < 0){
                 poly += prettyInt(this.arguments[i]) + "x^" + i;
             }  
         }
-        if (this.arguments[1] > 0) {
-            poly += "+" + prettyInt(this.arguments[1]) + "x";
-        } else if (this.arguments[1] < 0) {
-            poly += prettyInt(this.arguments[1]) + "x";
+        if (this.arguments.length > 2) {
+            if (this.arguments[1] > 0) {
+                poly += "+" + prettyInt(this.arguments[1]) + "x";
+            } else if (this.arguments[1] < 0) {
+                poly += prettyInt(this.arguments[1]) + "x";
+            }
         }
-        if (this.arguments[0] > 0) {
+        if (this.arguments[0] > 0 && this.arguments.length > 1) {
             poly += "+" + prettyInt(this.arguments[0]);
-        }
-        else if (this.arguments[0] < 0){
+        } else if (this.arguments[0] < 0 && this.arguments.length > 1){
             poly += prettyInt(this.arguments[0]);
         }  
         return poly;

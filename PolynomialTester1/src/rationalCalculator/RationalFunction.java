@@ -8,8 +8,22 @@ public class RationalFunction {
         this.denominator = denominator;
     }
     
+    public RationalFunction(String numerator, Polynomial denominator) {
+        this(Input.parse(numerator), denominator);
+    }
+    
+    public RationalFunction(Polynomial numerator, String denominator) {
+        this(numerator, Input.parse(denominator));
+    }
+    
+    public RationalFunction(String numerator, String denominator) {
+        this(Input.parse(numerator), Input.parse(denominator));
+    }
+    
     public RationalFunction derivative() {
-        Polynomial top = numerator.derivative().multiply(denominator).subtract(numerator.multiply(denominator.derivative()));
+        Polynomial fprimeg = numerator.derivative().multiply(denominator);
+        Polynomial fgprime = numerator.multiply(denominator.derivative());
+        Polynomial top = fprimeg.subtract(fgprime);
         Polynomial bottom = denominator.multiply(denominator);
         return new RationalFunction(top, bottom);
     }
