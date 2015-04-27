@@ -1,5 +1,6 @@
 package rationalCalculator;
 
+import java.util.ArrayList;
 
 public class Polynomial {
 
@@ -160,5 +161,216 @@ public class Polynomial {
         poly = poly.replaceAll("-", " - ");
         poly = poly.replaceAll("\\+", " + ");
         return poly;
+    }
+    
+    public String showRoots() {
+        String roots = "";
+        for (int i = 0; i < this.roots.length; i++) {
+            roots += "and" + this.roots[i];
+        }
+        return roots;
+    }
+
+    public void rootFinder(Polynomial p) {
+
+        if (p.arguments.length == 2) {
+            double b = p.arguments[0];
+            double a = p.arguments[1];
+
+            for (int i = 0; i < this.roots.length; i++) {
+                if (this.roots[i] == 0.0d) {
+                    this.roots[i] = -b / a;
+                    break;
+                }
+            }
+        } else if (p.arguments.length == 3) {
+            double c = p.arguments[0];
+            double b = p.arguments[1];
+            double a = p.arguments[2];
+
+            double dis = Math.pow(b, 2) - 4 * a * c;
+            if (dis > 0) {
+                this.rootFinderQuad(a, b, c, dis);
+            }
+        } else if (testInt(p)) {
+            this.rootGuesser(p);
+        } else if (p.arguments.length % 2 == 1) {
+            Polynomial deriv = p.derivative();
+            this.newtonMethod(p, deriv, 0);
+        } else if (p.arguments.length % 2 == 0) {
+            this.laguerre(p);
+        }
+    }
+
+    public void rootFinderQuad(double a, double b, double c, double dis) {
+        double first = (-b - Math.sqrt(dis)) / (2 * a);
+        double second = (-b + Math.sqrt(dis)) / (2 * a);
+        for (int i = 0; i < this.roots.length; i++) {
+            if (this.roots[i] == 0.0d) {
+                this.roots[i] = first;
+                this.roots[i + 1] = second;
+                break;
+            }
+        }
+    }
+
+    public boolean testInt(Polynomial p) {
+        double first = p.arguments[0];
+        double last = p.arguments[p.arguments.length - 1];
+        boolean firstboole, lastboole;
+
+        if (first > 0 && (first % 1 > 0.99 || first % 1 < 0.01)) {
+            firstboole = true;
+        } else if (first < 0 && (first % 1 > -0.01 || first % 1 < -0.99)) {
+            firstboole = true;
+        } else {
+            firstboole = false;
+        }
+        if (firstboole) {
+            if (last > 0 && (last % 1 > 0.99 || last % 1 < 0.01)) {
+                lastboole = true;
+            } else if (last < 0 && (last % 1 > -0.01 || last % 1 < -0.99)) {
+                lastboole = true;
+            } else {
+                lastboole = false;
+            }
+        } else {
+            lastboole = false;
+        }
+
+        if (firstboole && lastboole) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void rootGuesser(Polynomial p) {
+        int a = Math.abs((int) Math.rint(p.arguments[0]));
+        int b = Math.abs((int) Math.rint(p.arguments[p.arguments.length - 1]));
+
+        ArrayList<Integer> aFact = new ArrayList<Integer>();
+        ArrayList<Integer> bFact = new ArrayList<Integer>();
+
+        for (int i = 1; i <= (int) (a / 2); i++) {
+            if (a % i == 0) {
+                aFact.add(i);
+                aFact.add(a / i);
+            }
+        }
+        for (int i = 0; i < (int) (b / 2); i++) {
+            if (b % i == 0) {
+                bFact.add(i);
+                bFact.add(b / i);
+            }
+        }
+
+        for (int i = 0; i < aFact.size(); i++) {
+            for (int j = 0; j < bFact.size(); j++) {
+                double testValue = aFact.get(i) / bFact.get(j);
+                if (p.evaluate(testValue) == 0) {
+                    for (int k = 0; k < this.roots.length; k++) {
+                        if (this.roots[i] == 0.0d) {
+                            this.roots[i] = testValue;
+                        }
+                    }
+                    Polynomial root = new Polynomial(new double[]{1, -testValue});
+                    Polynomial q = root.divide(p)[0];
+                    this.rootFinder(q);
+                } else if (p.evaluate(-testValue) == 0) {
+                    for (int k = 0; k < this.roots.length; k++) {
+                        if (this.roots[i] == 0.0d) {
+                            this.roots[i] = -testValue;
+                        }
+                    }
+                    Polynomial root = new Polynomial(new double[]{1, testValue});
+                    Polynomial q = root.divide(p)[0];
+                    this.rootFinder(q);
+                }
+            }
+        }
+    }
+
+    public void newtonMethod(Polynomial p, Polynomial deriv, double d) {
+        double num = p.evaluate(d);
+        double den = deriv.evaluate(d);
+
+        if (num == 0) {
+            Polynomial root = new Polynomial(new double[]{1, d});
+            Polynomial q = root.divide(p)[0];
+            this.rootFinder(q);
+        } else if (den == 0) {
+            newtonMethod(p, deriv, d + 1);
+        }
+        double e = d - num / den;
+        num = p.evaluate(e);
+        den = deriv.evaluate(e);
+
+        double f = e - num / den;
+
+        for (int i = 0; i < 100; i++) {
+            num = p.evaluate(f);
+            den = deriv.evaluate(f);
+            e = f - num / den;
+
+            if (Math.abs(f - e) < 0.001) {
+                for (int k = 0; k < this.roots.length; k++) {
+                    if (this.roots[i] == 0.0d) {
+                        this.roots[i] = e;
+                    }
+                }
+                Polynomial root = new Polynomial(new double[]{1, -e});
+                Polynomial q = root.divide(p)[0];
+                this.rootFinder(q);
+            }
+            num = p.evaluate(e);
+            den = deriv.evaluate(e);
+            f = e - num / den;
+
+            if (Math.abs(f - e) < 0.001) {
+                for (int k = 0; k < this.roots.length; k++) {
+                    if (this.roots[i] == 0.0d) {
+                        this.roots[i] = f;
+                    }
+                }
+                Polynomial root = new Polynomial(new double[]{1, -f});
+                Polynomial q = root.divide(p)[0];
+                this.rootFinder(q);
+            }
+        }
+
+        this.laguerre(p);
+    }
+
+    public void laguerre(Polynomial p) {
+        int degree = p.arguments.length - 1;
+        Polynomial d1 = p.derivative();
+        Polynomial d2 = p.derivative();
+
+        double guess = 0;
+        for (int i = 0; i < 100; i++) {
+            if (Math.abs(p.evaluate(guess)) < .0000000001) {
+                for (int k = 0; k < this.roots.length; k++) {
+                    if (this.roots[i] == 0.0d) {
+                        this.roots[i] = guess;
+                    }
+                }
+                Polynomial root = new Polynomial(new double[]{1, -guess});
+                Polynomial q = root.divide(p)[0];
+                this.rootFinder(q);
+            }
+            double g = d1.evaluate(guess)/p.evaluate(guess);
+            double h = g*g - d2.evaluate(guess)/p.evaluate(guess);
+            double dem1 = g + Math.sqrt((degree-1)*(degree*h - g*g));
+            double dem2 = g - Math.sqrt((degree-1)*(degree*h - g*g));
+            double demF;
+            if (Math.abs(dem1)>Math.abs(dem2)) {
+                demF = dem1;
+            }else{
+                demF = dem2;
+            }
+            double a = degree/demF;
+            guess = guess - a;
+        }
     }
 }
