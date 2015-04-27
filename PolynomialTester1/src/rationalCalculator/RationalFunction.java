@@ -7,22 +7,31 @@ public class RationalFunction {
     ArrayList<Double> roots, asymptotes, holes;
     
     public RationalFunction(Polynomial numerator, Polynomial denominator) {
+        // Set fields
         this.numerator = numerator;
         this.denominator = denominator;
-        numerator.getRoots();
-        denominator.getRoots();
-        for (int i = 0; i < numerator.roots.size(); i++) {
-            double root = numerator.roots.get(i);
-            if (denominator.roots.contains(root)) {
+        
+        // Initialize arraylists
+        roots = new ArrayList<>();
+        asymptotes = new ArrayList<>();
+        holes = new ArrayList<>();
+        
+        // Make sure numerator and denominator have had their roots evaluated
+        this.numerator.getRoots();
+        this.denominator.getRoots();
+        
+        for (int i = 0; i < this.numerator.roots.size(); i++) {
+            double root = this.numerator.roots.get(i);
+            if (this.denominator.roots.contains(root)) {
                 if (!holes.contains(root)) holes.add(root);
             } else {
                 roots.add(root);
             }
         }
         
-        for (int i = 0; i < denominator.roots.size(); i++) {
-            double root = numerator.roots.get(i);
-            if (!numerator.roots.contains(root)) {
+        for (int i = 0; i < this.denominator.roots.size(); i++) {
+            double root = this.numerator.roots.get(i);
+            if (!this.numerator.roots.contains(root)) {
                 if (!asymptotes.contains(root)) asymptotes.add(root);
             }
         }
