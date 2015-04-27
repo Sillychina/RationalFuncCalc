@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class Polynomial {
 
-    double[] arguments, roots;
+    double[] arguments;
+    ArrayList<Double> roots;
     Polynomial fdiv, sdiv;
 
     public Polynomial(double[] a) {
@@ -165,13 +166,13 @@ public class Polynomial {
     
     public String showRoots() {
         String roots = "";
-        for (int i = 0; i < this.roots.length; i++) {
-            roots += "and" + this.roots[i];
+        for (int i = 0; i < this.roots.size(); i++) {
+            roots += "and" + this.roots.get(i);
         }
         return roots;
     }
     
-    public double[] getRoots() {
+    public ArrayList<Double> getRoots() {
         rootFinder(this);
         return this.roots;
     }
@@ -182,9 +183,9 @@ public class Polynomial {
             double b = p.arguments[0];
             double a = p.arguments[1];
 
-            for (int i = 0; i < this.roots.length; i++) {
-                if (this.roots[i] == 0.0d) {
-                    this.roots[i] = -b / a;
+            for (int i = 0; i < this.roots.size(); i++) {
+                if (this.roots.get(i) == 0.0d) {
+                    this.roots.set(i, -b / a);
                     break;
                 }
             }
@@ -210,10 +211,10 @@ public class Polynomial {
     public void rootFinderQuad(double a, double b, double c, double dis) {
         double first = (-b - Math.sqrt(dis)) / (2 * a);
         double second = (-b + Math.sqrt(dis)) / (2 * a);
-        for (int i = 0; i < this.roots.length; i++) {
-            if (this.roots[i] == 0.0d) {
-                this.roots[i] = first;
-                this.roots[i + 1] = second;
+        for (int i = 0; i < this.roots.size(); i++) {
+            if (this.roots.get(i) == 0.0d) {
+                this.roots.set(i, first);
+                this.roots.set(i + 1, second);
                 break;
             }
         }
@@ -274,18 +275,18 @@ public class Polynomial {
             for (int j = 0; j < bFact.size(); j++) {
                 double testValue = aFact.get(i) / bFact.get(j);
                 if (p.evaluate(testValue) == 0) {
-                    for (int k = 0; k < this.roots.length; k++) {
-                        if (this.roots[i] == 0.0d) {
-                            this.roots[i] = testValue;
+                    for (int k = 0; k < this.roots.size(); k++) {
+                        if (this.roots.get(i) == 0.0d) {
+                            this.roots.set(i, testValue);
                         }
                     }
                     Polynomial root = new Polynomial(new double[]{1, -testValue});
                     Polynomial q = root.divide(p)[0];
                     this.rootFinder(q);
                 } else if (p.evaluate(-testValue) == 0) {
-                    for (int k = 0; k < this.roots.length; k++) {
-                        if (this.roots[i] == 0.0d) {
-                            this.roots[i] = -testValue;
+                    for (int k = 0; k < this.roots.size(); k++) {
+                        if (this.roots.get(i) == 0.0d) {
+                            this.roots.set(i, -testValue);
                         }
                     }
                     Polynomial root = new Polynomial(new double[]{1, testValue});
@@ -319,9 +320,9 @@ public class Polynomial {
             e = f - num / den;
 
             if (Math.abs(f - e) < 0.001) {
-                for (int k = 0; k < this.roots.length; k++) {
-                    if (this.roots[i] == 0.0d) {
-                        this.roots[i] = e;
+                for (int k = 0; k < this.roots.size(); k++) {
+                    if (this.roots.get(i) == 0.0d) {
+                        this.roots.set(i, e);
                     }
                 }
                 Polynomial root = new Polynomial(new double[]{1, -e});
@@ -333,9 +334,9 @@ public class Polynomial {
             f = e - num / den;
 
             if (Math.abs(f - e) < 0.001) {
-                for (int k = 0; k < this.roots.length; k++) {
-                    if (this.roots[i] == 0.0d) {
-                        this.roots[i] = f;
+                for (int k = 0; k < this.roots.size(); k++) {
+                    if (this.roots.get(i) == 0.0d) {
+                        this.roots.set(i, f);
                     }
                 }
                 Polynomial root = new Polynomial(new double[]{1, -f});
@@ -355,9 +356,9 @@ public class Polynomial {
         double guess = 0;
         for (int i = 0; i < 100; i++) {
             if (Math.abs(p.evaluate(guess)) < .0000000001) {
-                for (int k = 0; k < this.roots.length; k++) {
-                    if (this.roots[i] == 0.0d) {
-                        this.roots[i] = guess;
+                for (int k = 0; k < this.roots.size(); k++) {
+                    if (this.roots.get(i) == 0.0d) {
+                        this.roots.set(i, guess);
                     }
                 }
                 Polynomial root = new Polynomial(new double[]{1, -guess});
