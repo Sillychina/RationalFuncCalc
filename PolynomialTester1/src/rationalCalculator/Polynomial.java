@@ -170,6 +170,11 @@ public class Polynomial {
         }
         return roots;
     }
+    
+    public double[] getRoots() {
+        rootFinder(this);
+        return this.roots;
+    }
 
     public void rootFinder(Polynomial p) {
 
