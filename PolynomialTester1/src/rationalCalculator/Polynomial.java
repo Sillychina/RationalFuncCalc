@@ -10,6 +10,7 @@ public class Polynomial {
 
     public Polynomial(double[] a) {
         arguments = a;
+        roots = new ArrayList<>();
     }
     
     public Polynomial(String s) {
@@ -195,7 +196,7 @@ public class Polynomial {
             double a = p.arguments[2];
 
             double dis = Math.pow(b, 2) - 4 * a * c;
-            if (dis > 0) {
+            if (dis >= 0) {
                 this.rootFinderQuad(a, b, c, dis);
             }
         } else if (testInt(p)) {
@@ -264,7 +265,7 @@ public class Polynomial {
                 aFact.add(a / i);
             }
         }
-        for (int i = 0; i < (int) (b / 2); i++) {
+        for (int i = 1; i < (int) (b / 2); i++) {
             if (b % i == 0) {
                 bFact.add(i);
                 bFact.add(b / i);
@@ -321,9 +322,7 @@ public class Polynomial {
 
             if (Math.abs(f - e) < 0.001) {
                 for (int k = 0; k < this.roots.size(); k++) {
-                    if (this.roots.get(i) == 0.0d) {
-                        this.roots.set(i, e);
-                    }
+                    this.roots.add(e);
                 }
                 Polynomial root = new Polynomial(new double[]{1, -e});
                 Polynomial q = root.divide(p)[0];
@@ -357,9 +356,7 @@ public class Polynomial {
         for (int i = 0; i < 100; i++) {
             if (Math.abs(p.evaluate(guess)) < .0000000001) {
                 for (int k = 0; k < this.roots.size(); k++) {
-                    if (this.roots.get(i) == 0.0d) {
-                        this.roots.set(i, guess);
-                    }
+                    this.roots.add(guess);
                 }
                 Polynomial root = new Polynomial(new double[]{1, -guess});
                 Polynomial q = root.divide(p)[0];

@@ -11,7 +11,8 @@ public class PolynomialTester1 {
         //testCase5();
         //testCase6();
         //testCase7();   
-        testCase8();
+        //testCase8();
+        testCase9();
     }    
         
     public static void testCase1() {
@@ -99,5 +100,12 @@ public class PolynomialTester1 {
     
     public static void testCase8() {
         GUI g = new GUI();
+    }
+    
+    public static void testCase9() {
+        Polynomial a = new Polynomial("1");
+        Polynomial b = new Polynomial("1");
+        RationalFunction d = new RationalFunction(a, b);
+        System.out.println(d.integrate(-1, 1));
     }
 }

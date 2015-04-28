@@ -347,6 +347,8 @@ public class GUI extends JFrame{
                     int gyMax = Integer.parseInt(yMaxField.getText());
                     int ixMin = Integer.parseInt(xMinIntField.getText());
                     int ixMax = Integer.parseInt(xMaxIntField.getText());
+                    double intMin = Double.parseDouble(xMinIntField.getText());
+                    double intMax = Double.parseDouble(xMaxIntField.getText());
                     
                     System.out.println("Clicked Submit");
                     
@@ -354,34 +356,35 @@ public class GUI extends JFrame{
                     String d = denomField.getText();
                     System.out.println(n);
                     System.out.println(d);
+                    RationalFunction func;
                     
                     if (d.equals("")){
                         Polynomial num = new Polynomial(n); 
-                        derivAns2.setText(num.derivative().toString());   
-                        yIntAns2.setText(String.valueOf(num.evaluate(0.0)));
-                        xIntAns2.setText(num.showRoots());
-                        xIntAns2.setText(num.showRoots());
-                        
-                        
-                        //minAns2.setText(num.getLocalMin());
-                        //maxAns2.setText(num.getLocalMax());
-                        //incrAns2.setText(num.getIncreasing());
-                        //decrAns2.setText(num.getDecreasing());
-                        //poiAns2.setText(num.getPOI());
-                        //upAns2.setText(num.getConcUp());
-                        //downAns2.setText(num.getConcDown());
-                        //integralAns2.setText(num.getIntegral(xMinIntField,xMaxIntField));
-                        
-                        
+                        Polynomial den = new Polynomial("0x");
+                        func = new RationalFunction(num, den);
                     }
                     else{
                         Polynomial num = new Polynomial(n);
                         Polynomial den = new Polynomial(d);
-                        RationalFunction function = new RationalFunction(num,den);
-                    }                
+                        func = new RationalFunction(num,den);
+                    }     
+                    
+                    derivAns2.setText(func.derivative().toString());   
+                    yIntAns2.setText(String.valueOf(func.evaluate(0.0)));
+                    xIntAns2.setText(func.showRoots());
+
+
+                    //minAns2.setText(num.getLocalMin());
+                    //maxAns2.setText(num.getLocalMax());
+                    //incrAns2.setText(num.getIncreasing());
+                    //decrAns2.setText(num.getDecreasing());
+                    //poiAns2.setText(num.getPOI());
+                    //upAns2.setText(num.getConcUp());
+                    //downAns2.setText(num.getConcDown());
+                    integralAns2.setText("" + func.integrate(intMin,intMax)); 
                 
         	}
-        }
+            }
         );
         
                 

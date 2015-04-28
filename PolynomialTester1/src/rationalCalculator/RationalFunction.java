@@ -107,7 +107,17 @@ public class RationalFunction {
         }
         total += evaluate(xmin) / 2;
         total += evaluate(xmax) / 2;
+        total = total * step;
         return total;
+    }
+    
+    public String showRoots() {
+        String ans = "";
+        for (int i = 0; i < roots.size(); i++) {
+            ans += roots.get(i);
+            if (!(i + 1 == roots.size())) ans += ", ";
+        }
+        return ans;
     }
     
     @Override
