@@ -92,7 +92,7 @@ public class RationalFunction {
         }
     }
     
-    public double integrate(double xmin, double xmax) {
+    public double integrate(double xmin, double xmax) { // trapezoid method
         // Check that they aren't integrating across a vertical asymptote
         for (Double asymptote : asymptotes) {
             if (asymptote <= xmax && asymptote >= xmin) {
