@@ -92,6 +92,24 @@ public class RationalFunction {
         }
     }
     
+    public double integrate(double xmin, double xmax) {
+        // Check that they aren't integrating across a vertical asymptote
+        for (Double asymptote : asymptotes) {
+            if (asymptote <= xmax && asymptote >= xmin) {
+                System.out.println("Can't integrate across an asymptote");
+                return Double.NaN;
+            }
+        }
+        double total = 0;
+        double step = (xmax - xmin) / 10000;
+        for (double x = xmin + step; x < xmax - step; x+= step) {
+            total += evaluate(x);
+        }
+        total += evaluate(xmin) / 2;
+        total += evaluate(xmax) / 2;
+        return total;
+    }
+    
     @Override
     public String toString() {
         return "(" + numerator.toString() + ")/(" + denominator.toString() + ")";

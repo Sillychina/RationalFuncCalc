@@ -4,13 +4,14 @@ public class PolynomialTester1 {
     public static void main(String[] args) {
 
         
-        testCase1();
+        //testCase1();
         //testCase2();
         //testCase3();
         //testCase4();
         //testCase5();
         //testCase6();
-        //testCase7();        
+        //testCase7();   
+        testCase8();
     }    
         
     public static void testCase1() {
@@ -94,5 +95,9 @@ public class PolynomialTester1 {
         RationalFunction d = new RationalFunction(a, b);
         System.out.println(d);
         System.out.println(d.derivative());
+    }
+    
+    public static void testCase8() {
+        GUI g = new GUI();
     }
 }
