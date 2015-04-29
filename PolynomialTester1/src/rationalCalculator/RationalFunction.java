@@ -37,6 +37,10 @@ public class RationalFunction {
                 if (!asymptotes.contains(root)) asymptotes.add(root);
             }
         }
+        
+        Collections.sort(roots);
+        Collections.sort(holes);
+        Collections.sort(asymptotes);
     }
     
     public RationalFunction(String numerator, Polynomial denominator) {
