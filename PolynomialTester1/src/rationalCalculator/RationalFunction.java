@@ -200,7 +200,7 @@ public class RationalFunction {
         double current, last;
         current = evaluate(points.get(0) - 1);
         
-        for (int i = 0; i < points.size(); i++) {
+        for (int i = 0; i < points.size() - 1; i++) {
             last = current;
             current = evaluate((points.get(i) + points.get(i + 1)) / (double) 2);
             if ((current > 0 && last < 0) || (current < 0 && last > 0)) {

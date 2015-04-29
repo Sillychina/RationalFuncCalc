@@ -182,7 +182,7 @@ public class GUI extends JFrame{
         
         //Important features & Answers
         yPos+=200;
-        JLabel yIntAns = new JLabel("y-intercept: ");
+        JLabel yIntAns = new JLabel("Y-intercept: ");
         yIntAns2 = new JLabel("");
         yIntAns.setBounds(padding,yPos,120,20);
         yIntAns2.setBounds(halfW,yPos,120,20);
