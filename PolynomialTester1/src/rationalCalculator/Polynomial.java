@@ -15,7 +15,7 @@ public class Polynomial {
 
     public Polynomial(double[] a) {
         arguments = a;
-        roots = getRoots(); // calculates the roots
+        roots = new ArrayList<>();
     }
 
     public Polynomial(double[][] factors) {
