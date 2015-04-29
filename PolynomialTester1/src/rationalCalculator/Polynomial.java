@@ -8,6 +8,10 @@ public class Polynomial {
     double[] arguments; // these are the coefficients of the polynomial
     ArrayList<Double> roots; //roots of the polynomial
     Polynomial fdiv, sdiv; //first and second derivative of the polynomial
+    
+    public Polynomial(String s) {
+        this(Input.parse(s).arguments);
+    }
 
     public Polynomial(double[] a) {
         arguments = a;

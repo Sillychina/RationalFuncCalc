@@ -212,6 +212,16 @@ public class RationalFunction {
         return ans;
     }
     
+    public String getLocalMins() {
+        String ans = "";
+        return ans;
+    }
+    
+    public String getLocalMaxes() {
+        String ans = "";
+        return ans;
+    }
+    
     @Override
     public String toString() {
         return "(" + numerator.toString() + ")/(" + denominator.toString() + ")";

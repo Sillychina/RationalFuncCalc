@@ -375,8 +375,8 @@ public class GUI extends JFrame{
                     xIntAns2.setText(func.showRoots());
 
 
-                    //minAns2.setText(num.getLocalMin());
-                    //maxAns2.setText(num.getLocalMax());
+                    minAns2.setText(func.getLocalMins());
+                    maxAns2.setText(func.getLocalMaxes());
                     incrAns2.setText(derivative1.positiveIntervals());
                     decrAns2.setText(derivative1.negativeIntervals());
                     poiAns2.setText(derivative2.changeOfSignPoints());
