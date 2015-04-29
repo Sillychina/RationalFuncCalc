@@ -1,9 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package kai_project.v.pkg1;
+package rationalCalculator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,8 +11,7 @@ public class Polynomial {
 
     public Polynomial(double[] a) {
         arguments = a;
-        roots = new ArrayList<>();
-        //Function here to get roots
+        roots = getRoots(); // calculates the roots
     }
 
     public Polynomial(double[][] factors) {
@@ -35,7 +29,7 @@ public class Polynomial {
         for (int i = 0; i < l; i++) {
             this.roots.add(factors[i][1] / factors[i][0]);
             double[] b = {factors[i][1], factors[i][0]};
-            expanded = expanded.multPolynomial(new Polynomial(b));
+            expanded = expanded.multiply(new Polynomial(b));
         }
         this.arguments = expanded.arguments;
 
@@ -49,7 +43,7 @@ public class Polynomial {
         return sum; //returns all values added together
     }
 
-    public Polynomial addPolynomial(Polynomial p) { // adds two the polynomials together
+    public Polynomial add(Polynomial p) { // adds two the polynomials together
 
         int t = this.arguments.length;
         int f = p.arguments.length;
@@ -72,7 +66,7 @@ public class Polynomial {
         return (new Polynomial(ans));
     }
 
-    public Polynomial subPolynomial(Polynomial p) { //subtracts two polynomials where the number being subtracted is the first one
+    public Polynomial subtract(Polynomial p) { //subtracts two polynomials where the number being subtracted is the first one
 
         int t = this.arguments.length;
         int f = p.arguments.length;
@@ -92,10 +86,10 @@ public class Polynomial {
                 ans[i] = -p.arguments[i];
             }
         }
-        return (new Polynomial(ans));
+        return new Polynomial(ans);
     }
 
-    public Polynomial multPolynomial(Polynomial p) { //multiplies two polynomials together
+    public Polynomial multiply(Polynomial p) { //multiplies two polynomials together
 
         int t = this.arguments.length;
         int f = p.arguments.length;
@@ -115,7 +109,7 @@ public class Polynomial {
     }
 
     @SuppressWarnings("empty-statement")
-    public Polynomial[] divPolynomial(Polynomial p, boolean round) { // polynomial division, given two polynomials, it divides them
+    public Polynomial[] divide(Polynomial p, boolean round) { // polynomial division, given two polynomials, it divides them
         Polynomial[] ans = new Polynomial[2];
         int t = this.arguments.length;
         int f = p.arguments.length;
@@ -155,11 +149,11 @@ public class Polynomial {
         return ans; //returns the answer in a two-element 1-d array of polynomials that houses the remainder and the quotient
     }
 
-    public Polynomial[] divPolynomial(Polynomial p) { //helpful sub that makes rounding simpler, since you dont have to round in normal division, but need to to check for roots
-        return divPolynomial(p, true);
+    public Polynomial[] divide(Polynomial p) { //helpful sub that makes rounding simpler, since you dont have to round in normal division, but need to to check for roots
+        return divide(p, true);
     }
 
-    public Polynomial derivPolynomial() { //finds derivative of polynomial given said polynomial
+    public Polynomial derivative() { //finds derivative of polynomial given said polynomial
         if (this.arguments.length > 1) {
             double[] ans = new double[this.arguments.length - 1];
             for (int i = 1; i < this.arguments.length; i++) {
@@ -174,44 +168,6 @@ public class Polynomial {
 
     }
 
-    public String showPolynomial() { // basically shows the polynomial on screen
-        String poly;
-        int last = this.arguments.length - 1;
-        poly = "" + this.arguments[last] + "x^" + last;
-
-        for (int i = (this.arguments.length - 2); i > 1; i--) {
-            if (this.arguments[i] > 0) {
-                poly += " + " + this.arguments[i] + "x^" + i;
-            } else if (this.arguments[i] < 0) {
-                poly += " - " + -this.arguments[i] + "x^" + i;
-            }
-        }
-        if (this.arguments.length >= 2) {
-            if (this.arguments[1] > 0) {
-                poly += " + " + this.arguments[1] + "x";
-            } else if (this.arguments[1] < 0) {
-                poly += " - " + -this.arguments[1] + "x";
-            }
-        }
-
-        if (this.arguments[0] > 0) {
-            poly += " + " + this.arguments[0];
-        } else if (this.arguments[0] < 0) {
-            poly += " - " + -this.arguments[0];
-        }
-        if (this.arguments[0] == 0 || this.arguments.length == 1) {
-            poly = "" + 0.0;
-        }
-        return poly; //returns the string of the polynomial given
-    }
-
-    public String showRoots() { //function that shows roots of a function
-        String root = "";
-        for (int i = 0; i < this.roots.size(); i++) {
-            root += "and" + this.roots.get(i);
-        }
-        return root; //returns the string of roots for it
-    }
 
     public void rootFinder(Polynomial p) { //helps sort to which function to use to find the roots. This includes basic root-finding strategy given the degree of polynomial. 
 
@@ -235,7 +191,7 @@ public class Polynomial {
 
             this.rootGuesser(p);
         } else if (p.arguments.length % 2 == 1) {
-            Polynomial deriv = p.derivPolynomial();
+            Polynomial deriv = p.derivative();
             this.newtonMethod(p, deriv, 0); // if degree is even, Newton's method is better
         } else if (p.arguments.length % 2 == 0 && p.arguments.length > 3) { // only does the Laguerre's method if it's high degree than quadratic and degree is even
             this.laguerre(p);
@@ -297,14 +253,14 @@ public class Polynomial {
                 if (round(p.evaluate(testValue)) == 0) {
                     this.roots.add(testValue);
                     Polynomial root = new Polynomial(new double[]{-testValue, 1}); //if either test value works, it does the process again with the new polynomial (freshly divided by root)
-                    Polynomial q = root.divPolynomial(p)[0];
+                    Polynomial q = root.divide(p)[0];
                     rootFound = true;
                     this.rootFinder(q);
                     break outerLoop;
                 } else if (round(p.evaluate(-testValue)) == 0) {
                     this.roots.add(-testValue);
                     Polynomial root = new Polynomial(new double[]{testValue, 1}); 
-                    Polynomial q = root.divPolynomial(p)[0];
+                    Polynomial q = root.divide(p)[0];
                     rootFound = true;
                     this.rootFinder(q);
                     break outerLoop;
@@ -313,7 +269,7 @@ public class Polynomial {
         }
         if (rootFound == false) {
             if (p.arguments.length % 2 == 0) {
-                fdiv = p.derivPolynomial();
+                fdiv = p.derivative();
                 this.newtonMethod(p, fdiv, 0); //does newtons method if no values found
             }
         }
@@ -324,7 +280,7 @@ public class Polynomial {
         double den = deriv.evaluate(d);
         if (num == 0) {
             Polynomial root = new Polynomial(new double[]{-d, 1});
-            Polynomial q = root.divPolynomial(p)[0];
+            Polynomial q = root.divide(p)[0];
             this.rootFinder(q);
         } else if (den == 0) {
             this.newtonMethod(p, deriv, d + 1);
@@ -345,7 +301,7 @@ public class Polynomial {
                     this.roots.add(e);
                     works = true;
                     Polynomial root = new Polynomial(new double[]{-e, 1}); //if found root within 100 iterations, divides and repeats process with new root
-                    Polynomial q = root.divPolynomial(p)[0];
+                    Polynomial q = root.divide(p)[0];
                     this.rootFinder(q);
                     break;
                 }
@@ -356,7 +312,7 @@ public class Polynomial {
                     this.roots.add(f);
                     works = true;
                     Polynomial root = new Polynomial(new double[]{-f, 1});
-                    Polynomial q = root.divPolynomial(p)[0];
+                    Polynomial q = root.divide(p)[0];
                     this.rootFinder(q);
                     break;
                 }
@@ -370,15 +326,15 @@ public class Polynomial {
 
     public void laguerre(Polynomial p) { //laguerre's method is almost foolproof, but can find complex roots instead of real ones sometimes. for more info, google "leguerre's method"
         int degree = p.arguments.length - 1;
-        Polynomial d1 = p.derivPolynomial();
-        Polynomial d2 = p.derivPolynomial();
+        Polynomial d1 = p.derivative();
+        Polynomial d2 = p.derivative();
 
         double guess = 0;
         for (int i = 0; i < 100; i++) {
             if (round(p.evaluate(guess)) == 0) {
                 this.roots.add(guess);
                 Polynomial root = new Polynomial(new double[]{-guess, 1});
-                Polynomial q = root.divPolynomial(p)[0];
+                Polynomial q = root.divide(p)[0];
                 this.rootFinder(q);
                 break;
             }
@@ -386,7 +342,7 @@ public class Polynomial {
             double h = g * g - d2.evaluate(guess) / p.evaluate(guess);
             double dis = (degree - 1) * (degree * h - g * g);
             if (dis < 0 && p.arguments.length % 2 == 0) { // if found complexcomplex and is an odd leading coefficient, try newton's method at a new inteval
-                Polynomial div = p.derivPolynomial();
+                Polynomial div = p.derivative();
                 this.newtonMethod(p, div, 100);
                 break;
             }
@@ -401,5 +357,60 @@ public class Polynomial {
             double a = degree / demF;
             guess -= a;
         }
+    }
+
+        private String prettyInt(double d) { // Strip decimals from integers stored as doubles for prettier toString
+        return d == Math.round(d) ? "" + Math.round(d) : "" + d;
+    }
+
+    @Override
+    public String toString() {
+        String poly;
+        int last = this.arguments.length - 1;
+        if (last == 0) {
+            poly = prettyInt(this.arguments[last]);
+        } else if (last == 1) {
+            poly = prettyInt(this.arguments[last]) + "x";
+        } else {
+            poly = prettyInt(this.arguments[last]) + "x^" + last;
+        }
+        
+        for (int i = (this.arguments.length - 2); i > 1; i--) {
+            if (this.arguments[i] > 0) {
+                poly += "+" + prettyInt(this.arguments[i]) + "x^" + i;
+            }
+            else if (this.arguments[i] < 0){
+                poly += prettyInt(this.arguments[i]) + "x^" + i;
+            }  
+        }
+        if (this.arguments.length > 2) {
+            if (this.arguments[1] > 0) {
+                poly += "+" + prettyInt(this.arguments[1]) + "x";
+            } else if (this.arguments[1] < 0) {
+                poly += prettyInt(this.arguments[1]) + "x";
+            }
+        }
+        if (this.arguments[0] > 0 && this.arguments.length > 1) {
+            poly += "+" + prettyInt(this.arguments[0]);
+        } else if (this.arguments[0] < 0 && this.arguments.length > 1){
+            poly += prettyInt(this.arguments[0]);
+        }  
+        
+        poly = poly.replaceAll("-", " - ");
+        poly = poly.replaceAll("\\+", " + ");
+        return poly;
+    }
+    
+    public String showRoots() {
+        String roots = "";
+        for (int i = 0; i < this.roots.size(); i++) {
+            roots += "and" + this.roots.get(i);
+        }
+        return roots;
+    }
+    
+    public ArrayList<Double> getRoots() {
+        rootFinder(this);
+        return this.roots;
     }
 }
