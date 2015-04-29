@@ -368,19 +368,20 @@ public class GUI extends JFrame{
                         Polynomial den = new Polynomial(d);
                         func = new RationalFunction(num,den);
                     }     
-                    
-                    derivAns2.setText(func.derivative().toString());   
+                    RationalFunction derivative1 = func.derivative();
+                    RationalFunction derivative2 = derivative1.derivative();
+                    derivAns2.setText(derivative1.toString());   
                     yIntAns2.setText(String.valueOf(func.evaluate(0.0)));
                     xIntAns2.setText(func.showRoots());
 
 
                     //minAns2.setText(num.getLocalMin());
                     //maxAns2.setText(num.getLocalMax());
-                    //incrAns2.setText(num.getIncreasing());
-                    //decrAns2.setText(num.getDecreasing());
-                    //poiAns2.setText(num.getPOI());
-                    //upAns2.setText(num.getConcUp());
-                    //downAns2.setText(num.getConcDown());
+                    incrAns2.setText(derivative1.positiveIntervals());
+                    decrAns2.setText(derivative1.negativeIntervals());
+                    poiAns2.setText(derivative2.changeOfSignPoints());
+                    upAns2.setText(derivative2.positiveIntervals());
+                    downAns2.setText(derivative2.negativeIntervals());
                     integralAns2.setText("" + func.integrate(intMin,intMax)); 
                 
         	}

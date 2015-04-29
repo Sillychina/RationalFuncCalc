@@ -152,6 +152,62 @@ public class RationalFunction {
         return ans;
     }
     
+    public String negativeIntervals() {
+        String ans = "";
+        // Create an arraylist of all the points where the function could cross the x axis
+        ArrayList<Double> points = new ArrayList<>();
+        points.addAll(roots);
+        points.addAll(asymptotes);
+        points.addAll(holes);
+        points = new ArrayList<>(new LinkedHashSet<Double>(points)); // remove duplicates
+        Collections.sort(points);
+        
+        // Initial test
+        if (evaluate(points.get(0) - 1) < 0) ans += "(-infinity, " + points.get(0) + ")";
+        
+        for (int i = 1; i < points.size() - 1; i++) { // Check between each pair of points
+            double x = (points.get(i) + points.get(i + 1)) / 2;
+            if (evaluate(x) < 0) {
+                if (!ans.equals("")) ans += " U ";
+                ans += "(" + points.get(i) + ", " + points.get(i + 1) + ")";
+            }
+        }
+        
+        // Final test
+        if (evaluate(points.get(points.size() - 1)) < 0) {
+            if (!ans.equals("")) ans += " U ";
+            ans += "(" + points.get(points.size() - 1) + ", +infinity)";
+        }
+        
+        return ans;
+    }
+    
+    public String changeOfSignPoints() {
+        String ans = "";
+        // Create an arraylist of all the points where the function could cross the x axis
+        ArrayList<Double> points = new ArrayList<>();
+        points.addAll(roots);
+        points.addAll(asymptotes);
+        points.addAll(holes);
+        points = new ArrayList<>(new LinkedHashSet<Double>(points)); // remove duplicates
+        Collections.sort(points);
+        points.add(points.get(points.size() - 1) + 1); // for testing the last point
+        
+        double current, last;
+        current = evaluate(points.get(0) - 1);
+        
+        for (int i = 0; i < points.size(); i++) {
+            last = current;
+            current = evaluate((points.get(i) + points.get(i + 1)) / (double) 2);
+            if ((current > 0 && last < 0) || (current < 0 && last > 0)) {
+                if (!ans.equals("")) ans += ", ";
+                ans += points.get(i);
+            }
+            
+        }
+        return ans;
+    }
+    
     @Override
     public String toString() {
         return "(" + numerator.toString() + ")/(" + denominator.toString() + ")";
