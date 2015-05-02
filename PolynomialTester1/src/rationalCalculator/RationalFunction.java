@@ -32,7 +32,7 @@ public class RationalFunction {
         }
         
         for (int i = 0; i < this.denominator.roots.size(); i++) {
-            double root = this.numerator.roots.get(i);
+            double root = this.denominator.roots.get(i);
             if (!this.numerator.roots.contains(root)) {
                 if (!asymptotes.contains(root)) asymptotes.add(root);
             }
@@ -136,6 +136,11 @@ public class RationalFunction {
         points = new ArrayList<>(new LinkedHashSet<Double>(points)); // remove duplicates
         Collections.sort(points);
         
+        // Special case: horizontal line
+        if (points.size() == 0) {
+            return evaluate(0) > 0 ? "(-infinity, infinity)" : "none";
+        }
+        
         // Initial test
         if (evaluate(points.get(0) - 1) > 0) ans += "(-infinity, " + points.get(0) + ")";
         
@@ -166,6 +171,11 @@ public class RationalFunction {
         points = new ArrayList<>(new LinkedHashSet<Double>(points)); // remove duplicates
         Collections.sort(points);
         
+        // Special case: horizontal line
+        if (points.size() == 0) {
+            return evaluate(0) < 0 ? "(-infinity, infinity)" : "none";
+        }
+        
         // Initial test
         if (evaluate(points.get(0) - 1) < 0) ans += "(-infinity, " + points.get(0) + ")";
         
@@ -186,8 +196,8 @@ public class RationalFunction {
         return ans;
     }
     
-    public String changeOfSignPoints() {
-        String ans = "";
+    public ArrayList<Double> changeOfSignPoints() {
+        ArrayList<Double> ans = new ArrayList<>();
         // Create an arraylist of all the points where the function could cross the x axis
         ArrayList<Double> points = new ArrayList<>();
         points.addAll(roots);
@@ -195,6 +205,10 @@ public class RationalFunction {
         points.addAll(holes);
         points = new ArrayList<>(new LinkedHashSet<Double>(points)); // remove duplicates
         Collections.sort(points);
+        
+        // Special case: horizontal
+        if (points.size() == 0) return ans;
+        
         points.add(points.get(points.size() - 1) + 1); // for testing the last point
         
         double current, last;
@@ -203,22 +217,33 @@ public class RationalFunction {
         for (int i = 0; i < points.size() - 1; i++) {
             last = current;
             current = evaluate((points.get(i) + points.get(i + 1)) / (double) 2);
-            if ((current > 0 && last < 0) || (current < 0 && last > 0)) {
-                if (!ans.equals("")) ans += ", ";
-                ans += points.get(i);
+            if ((current > 0 && last < 0) || (current < 0 && last > 0)) { // if there was a change of sign, add it to the list
+                ans.add(points.get(i));
             }
             
         }
         return ans;
     }
     
-    public String getLocalMins() {
-        String ans = "";
+    public ArrayList<Double> getLocalMaxes() {
+        ArrayList<Double> ans = new ArrayList<>();
+        RationalFunction derivative = derivative();
+        RationalFunction derivative2 = derivative.derivative();
+        for (double point : derivative.roots) {
+            if (derivative2.evaluate(point) < 0) ans.add(point); // At each turning point, if the function is concave down it's a local max
+        }
+        
         return ans;
     }
     
-    public String getLocalMaxes() {
-        String ans = "";
+    public ArrayList<Double> getLocalMins() {
+        ArrayList<Double> ans = new ArrayList<>();
+        RationalFunction derivative = derivative();
+        RationalFunction derivative2 = derivative.derivative();
+        for (double point : derivative.roots) {
+            if (derivative2.evaluate(point) > 0) ans.add(point); // At each turning point, if the function is concave up it's a local min
+        }
+        
         return ans;
     }
     

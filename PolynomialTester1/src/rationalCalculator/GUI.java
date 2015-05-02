@@ -360,7 +360,7 @@ public class GUI extends JFrame{
                     
                     if (d.equals("")){
                         Polynomial num = new Polynomial(n); 
-                        Polynomial den = new Polynomial("0x");
+                        Polynomial den = new Polynomial("1"); // Default to 1 on the denominator if none entered
                         func = new RationalFunction(num, den);
                     }
                     else{
@@ -374,12 +374,11 @@ public class GUI extends JFrame{
                     yIntAns2.setText(String.valueOf(func.evaluate(0.0)));
                     xIntAns2.setText(func.showRoots());
 
-
-                    minAns2.setText(func.getLocalMins());
-                    maxAns2.setText(func.getLocalMaxes());
+                    minAns2.setText(func.getLocalMins().toString());
+                    maxAns2.setText(func.getLocalMaxes().toString());
                     incrAns2.setText(derivative1.positiveIntervals());
                     decrAns2.setText(derivative1.negativeIntervals());
-                    poiAns2.setText(derivative2.changeOfSignPoints());
+                    poiAns2.setText(derivative2.changeOfSignPoints().toString().equals("[]") ? "none" : derivative2.changeOfSignPoints().toString());
                     upAns2.setText(derivative2.positiveIntervals());
                     downAns2.setText(derivative2.negativeIntervals());
                     integralAns2.setText("" + func.integrate(intMin,intMax)); 
@@ -390,6 +389,5 @@ public class GUI extends JFrame{
         
                 
     }
-    
-    
+
 }
