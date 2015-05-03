@@ -15,7 +15,6 @@ public class Polynomial {
 
     public Polynomial(double[] a) {
         arguments = a;
-        roots = new ArrayList<>();
     }
 
     public Polynomial(double[][] factors) {
@@ -27,6 +26,7 @@ public class Polynomial {
     public Polynomial(double leading, double[][] factors) {
         //ie: 3(2x+5)(x-3) is represented by the following:
         // leading = 3.0, factors = {{2.0,5.0},{1.0,-3.0}}
+        roots = new ArrayList<>();
         int l = factors.length;
         double[] a = {leading};
         Polynomial expanded = new Polynomial(a);
@@ -174,7 +174,6 @@ public class Polynomial {
 
 
     public void rootFinder(Polynomial p) { //helps sort to which function to use to find the roots. This includes basic root-finding strategy given the degree of polynomial. 
-
         if (p.arguments.length == 2) {
             double b = p.arguments[0];
             double a = p.arguments[1];
@@ -187,7 +186,7 @@ public class Polynomial {
             double a = p.arguments[2];
 
             double dis = (b * b) - (4 * a * c);
-            System.out.println(dis);
+
             if (dis >= 0) {
                 this.rootFinderQuad(a, b, dis);
             }
@@ -208,7 +207,6 @@ public class Polynomial {
         this.roots.add(first);
         this.roots.add(second);
 
-        System.out.println("quad");
     }
 
     public boolean testInt(Polynomial p) { //sees if the first argument and the last argument are both integers. Then finds if any testable values work
@@ -406,15 +404,19 @@ public class Polynomial {
     }
     
     public String showRoots() {
-        String roots = "";
-        for (int i = 0; i < this.roots.size(); i++) {
-            roots += "and" + this.roots.get(i);
+        String result = "";
+        ArrayList<Double> roots = getRoots();
+        for (Double root : roots) {
+            result += "and" + root;
         }
-        return roots;
+        return result;
     }
     
     public ArrayList<Double> getRoots() {
-        rootFinder(this);
+        if (this.roots == null) { // only calculate roots if they haven't been calculated already
+            this.roots = new ArrayList<>();
+            rootFinder(this);
+        }
         return this.roots;
     }
 }

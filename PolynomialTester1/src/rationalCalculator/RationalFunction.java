@@ -1,46 +1,16 @@
 package rationalCalculator;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.Collections;
 
 public class RationalFunction {
     Polynomial numerator, denominator;
-    ArrayList<Double> roots, asymptotes, holes;
+    ArrayList<Double> roots, asymptotes, holes, criticalPoints;
     
     public RationalFunction(Polynomial numerator, Polynomial denominator) {
         // Set fields
         this.numerator = numerator;
         this.denominator = denominator;
-        
-        // Initialize arraylists
-        roots = new ArrayList<>();
-        asymptotes = new ArrayList<>();
-        holes = new ArrayList<>();
-        
-        // Make sure numerator and denominator have had their roots evaluated
-        this.numerator.getRoots();
-        this.denominator.getRoots();
-        
-        for (int i = 0; i < this.numerator.roots.size(); i++) {
-            double root = this.numerator.roots.get(i);
-            if (this.denominator.roots.contains(root)) {
-                if (!holes.contains(root)) holes.add(root);
-            } else {
-                roots.add(root);
-            }
-        }
-        
-        for (int i = 0; i < this.denominator.roots.size(); i++) {
-            double root = this.denominator.roots.get(i);
-            if (!this.numerator.roots.contains(root)) {
-                if (!asymptotes.contains(root)) asymptotes.add(root);
-            }
-        }
-        
-        Collections.sort(roots);
-        Collections.sort(holes);
-        Collections.sort(asymptotes);
     }
     
     public RationalFunction(String numerator, Polynomial denominator) {
@@ -129,12 +99,8 @@ public class RationalFunction {
     public String positiveIntervals() {
         String ans = "";
         // Create an arraylist of all the points where the function could cross the x axis
-        ArrayList<Double> points = new ArrayList<>();
-        points.addAll(roots);
-        points.addAll(asymptotes);
-        points.addAll(holes);
-        points = new ArrayList<>(new LinkedHashSet<Double>(points)); // remove duplicates
-        Collections.sort(points);
+        ArrayList<Double> points = getCriticalPoints();
+        
         
         // Special case: horizontal line
         if (points.size() == 0) {
@@ -164,12 +130,7 @@ public class RationalFunction {
     public String negativeIntervals() {
         String ans = "";
         // Create an arraylist of all the points where the function could cross the x axis
-        ArrayList<Double> points = new ArrayList<>();
-        points.addAll(roots);
-        points.addAll(asymptotes);
-        points.addAll(holes);
-        points = new ArrayList<>(new LinkedHashSet<Double>(points)); // remove duplicates
-        Collections.sort(points);
+        ArrayList<Double> points = getCriticalPoints();
         
         // Special case: horizontal line
         if (points.size() == 0) {
@@ -196,18 +157,72 @@ public class RationalFunction {
         return ans;
     }
     
+    public void findPoints() {
+        // Initialize arraylists
+        roots = new ArrayList<>();
+        asymptotes = new ArrayList<>();
+        holes = new ArrayList<>();
+        criticalPoints = new ArrayList<>();
+        
+        // get the roots of the numerator and denominator
+        ArrayList<Double> numRoots = this.numerator.getRoots();
+        ArrayList<Double> denRoots = this.denominator.getRoots();
+        
+        for (Double root : numRoots) {
+            // add to critical points
+            if (!criticalPoints.contains(root)) criticalPoints.add(root);
+            
+            // add to either holes or roots
+            if (denRoots.contains(root)) {
+                if (!holes.contains(root)) holes.add(root);
+            } else {
+                roots.add(root);
+            }
+        }
+        
+        for (Double root : denRoots) {
+            // add to critical points
+            if (!criticalPoints.contains(root)) criticalPoints.add(root);
+            
+            // add to asymptotes if not a hole (holes already accounted for)
+            if (!numRoots.contains(root)) {
+                if (!asymptotes.contains(root)) asymptotes.add(root);
+            }
+        }
+        
+        Collections.sort(roots);
+        Collections.sort(holes);
+        Collections.sort(asymptotes);
+        Collections.sort(criticalPoints);
+    }
+    
+    public ArrayList<Double> getRoots() {
+        if (roots == null) findPoints();
+        return this.roots;
+    }
+    
+    public ArrayList<Double> getAsymptotes() {
+        if (asymptotes == null) findPoints();
+        return this.asymptotes;
+    }
+    
+    public ArrayList<Double> getHoles() {
+        if (holes == null) findPoints();
+        return this.holes;
+    }
+    
+    public ArrayList<Double> getCriticalPoints() { // points where the function may change from positive to negative or vice versa
+        if (criticalPoints == null) findPoints();
+        return criticalPoints;
+    }
+    
     public ArrayList<Double> changeOfSignPoints() {
         ArrayList<Double> ans = new ArrayList<>();
         // Create an arraylist of all the points where the function could cross the x axis
-        ArrayList<Double> points = new ArrayList<>();
-        points.addAll(roots);
-        points.addAll(asymptotes);
-        points.addAll(holes);
-        points = new ArrayList<>(new LinkedHashSet<Double>(points)); // remove duplicates
-        Collections.sort(points);
+        ArrayList<Double> points = getCriticalPoints();
         
         // Special case: horizontal
-        if (points.size() == 0) return ans;
+        if (points.isEmpty()) return ans;
         
         points.add(points.get(points.size() - 1) + 1); // for testing the last point
         
@@ -229,7 +244,9 @@ public class RationalFunction {
         ArrayList<Double> ans = new ArrayList<>();
         RationalFunction derivative = derivative();
         RationalFunction derivative2 = derivative.derivative();
-        for (double point : derivative.roots) {
+        ArrayList<Double> derivRoots = derivative.getRoots();
+        
+        for (double point : derivRoots) {
             if (derivative2.evaluate(point) < 0) ans.add(point); // At each turning point, if the function is concave down it's a local max
         }
         
@@ -240,7 +257,9 @@ public class RationalFunction {
         ArrayList<Double> ans = new ArrayList<>();
         RationalFunction derivative = derivative();
         RationalFunction derivative2 = derivative.derivative();
-        for (double point : derivative.roots) {
+        ArrayList<Double> derivRoots = derivative.getRoots();
+        
+        for (double point : derivRoots) {
             if (derivative2.evaluate(point) > 0) ans.add(point); // At each turning point, if the function is concave up it's a local min
         }
         

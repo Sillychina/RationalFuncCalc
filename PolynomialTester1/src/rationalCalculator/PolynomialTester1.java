@@ -4,7 +4,8 @@ public class PolynomialTester1 {
     public static void main(String[] args) {
 
         
-        new GUI(); // start the gui
+        //new GUI(); // start the gui
+        testCase8();
     }    
         
     public static void testCase1() {
@@ -91,7 +92,22 @@ public class PolynomialTester1 {
     }
     
     public static void testCase8() {
-        GUI g = new GUI();
+        Polynomial a = new Polynomial("5x^2+5x-3");
+        Polynomial b = new Polynomial("3x^3+2x");
+        RationalFunction func = new RationalFunction(a, b);
+        RationalFunction derivative1 = func.derivative();
+        RationalFunction derivative2 = derivative1.derivative();
+        System.out.println("Derivative: " + derivative1.toString());   
+        System.out.println("Y Intercept: " +  func.evaluate(0.0));
+        System.out.println("X Intercepts: " + func.getRoots());
+
+        System.out.println("Local minima: " + func.getLocalMins());
+        System.out.println("Local maxima: " + func.getLocalMaxes());
+        System.out.println("Increasing on " + derivative1.positiveIntervals());
+        System.out.println("Decreasing on " + derivative1.negativeIntervals());
+        System.out.println("Points of inflection: " + (derivative2.changeOfSignPoints()));
+        System.out.println("Concave up on " + derivative2.positiveIntervals());
+        System.out.println("Concave down on " + derivative2.negativeIntervals());
     }
     
     public static void testCase9() {
@@ -99,5 +115,10 @@ public class PolynomialTester1 {
         Polynomial b = new Polynomial("x+7");
         RationalFunction d = new RationalFunction(a, b);
         System.out.println(d.integrate(-1, 1));
+    }
+    
+    public static void testCase10() {
+        Polynomial a = new Polynomial("5x^2+5x-3");
+        System.out.println(a.getRoots());
     }
 }
