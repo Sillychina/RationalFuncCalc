@@ -102,12 +102,13 @@ public class PolynomialTester1 {
         //System.out.println("X Intercepts: " + func.getRoots());
 
         System.out.println("Local minima: " + func.getLocalMins());
-////        System.out.println("Local maxima: " + func.getLocalMaxes());
-////        System.out.println("Increasing on " + derivative1.positiveIntervals());
-////        System.out.println("Decreasing on " + derivative1.negativeIntervals());
-////        System.out.println("Points of inflection: " + (derivative2.changeOfSignPoints()));
-////        System.out.println("Concave up on " + derivative2.positiveIntervals());
-////        System.out.println("Concave down on " + derivative2.negativeIntervals());
+        System.out.println("Local maxima: " + func.getLocalMaxes());
+        System.out.println("Increasing on " + derivative1.positiveIntervals());
+        System.out.println("Decreasing on " + derivative1.negativeIntervals());
+        System.out.println("Points of inflection: " + (derivative2.changeOfSignPoints()));
+        System.out.println("Concave up on " + derivative2.positiveIntervals());
+        System.out.println("Concave down on " + derivative2.negativeIntervals());
+
     }
     
     public static void testCase9() {

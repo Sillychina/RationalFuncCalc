@@ -269,10 +269,8 @@ public class Polynomial {
             }
         }
         if (rootFound == false) {
-            if (p.arguments.length % 2 == 0) {
-                fdiv = p.derivative();
-                this.newtonMethod(p, fdiv, 0); //does newtons method if no values found
-            }
+            fdiv = p.derivative();
+            this.newtonMethod(p, fdiv, 0); //does newtons method if no values found
         }
     }
 
