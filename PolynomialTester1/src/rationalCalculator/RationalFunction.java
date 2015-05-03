@@ -166,6 +166,8 @@ public class RationalFunction {
         // get the roots of the numerator and denominator
         ArrayList<Double> numRoots = this.numerator.getRoots();
         ArrayList<Double> denRoots = this.denominator.getRoots();
+        System.out.println(numerator);
+        System.out.println(numRoots);
         
         for (Double root : numRoots) {
             // add to critical points
@@ -188,7 +190,6 @@ public class RationalFunction {
                 if (!asymptotes.contains(root)) asymptotes.add(root);
             }
         }
-        
         Collections.sort(roots);
         Collections.sort(holes);
         Collections.sort(asymptotes);
@@ -244,7 +245,6 @@ public class RationalFunction {
         RationalFunction derivative = derivative();
         RationalFunction derivative2 = derivative.derivative();
         ArrayList<Double> derivRoots = derivative.getRoots();
-        
         for (double point : derivRoots) {
             if (derivative2.evaluate(point) < 0) ans.add(point); // At each turning point, if the function is concave down it's a local max
         }

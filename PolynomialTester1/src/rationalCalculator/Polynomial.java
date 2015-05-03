@@ -26,7 +26,6 @@ public class Polynomial {
     public Polynomial(double leading, double[][] factors) {
         //ie: 3(2x+5)(x-3) is represented by the following:
         // leading = 3.0, factors = {{2.0,5.0},{1.0,-3.0}}
-        roots = new ArrayList<>();
         int l = factors.length;
         double[] a = {leading};
         Polynomial expanded = new Polynomial(a);
