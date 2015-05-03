@@ -99,8 +99,7 @@ public class RationalFunction {
     public String positiveIntervals() {
         String ans = "";
         // Create an arraylist of all the points where the function could cross the x axis
-        ArrayList<Double> points = getCriticalPoints();
-        
+        ArrayList<Double> points = getCriticalPoints();       
         
         // Special case: horizontal line
         if (points.size() == 0) {
