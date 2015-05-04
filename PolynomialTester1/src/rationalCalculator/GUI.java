@@ -21,14 +21,14 @@ public class GUI extends JFrame{
     ArrayList<JTextField> myFields;
     ArrayList<JLabel> myLabels;
     //User Input Fields
-    JTextField numerField = new JTextField("",30);
-    JTextField denomField = new JTextField("",30);
+    JTextField numerField = new JTextField("x",30);
+    JTextField denomField = new JTextField("1",30);
     JTextField xMinField = new JTextField("-10",30);
     JTextField xMaxField = new JTextField("10",30);
     JTextField yMinField = new JTextField("-10",30);
     JTextField yMaxField = new JTextField("10",30);
-    JTextField xMinIntField = new JTextField("",30);
-    JTextField xMaxIntField = new JTextField("",30);
+    JTextField xMinIntField = new JTextField("0",30);
+    JTextField xMaxIntField = new JTextField("0",30);
     //Answer Fields
     JLabel yIntAns2;
     JLabel xIntAns2;

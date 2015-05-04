@@ -4,8 +4,8 @@ public class PolynomialTester1 {
     public static void main(String[] args) {
 
         
-        //new GUI(); // start the gui
-        testCase8();
+        new GUI(); // start the gui
+        //testCase8();
     }    
         
     public static void testCase1() {

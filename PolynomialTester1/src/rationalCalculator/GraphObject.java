@@ -60,7 +60,6 @@ public class GraphObject extends JPanel{
         yMinT = yMax;
         yMaxT = yMin;
          
-         
         if (fn == null || xMin == xMax || yMin == yMax){
             g.setColor(Color.red);
              
@@ -81,6 +80,9 @@ public class GraphObject extends JPanel{
         if (fn == null){
             return;
         }
+        
+        // make sure alpoints are there:
+        fn.findPoints();
          
         pixelWidth = (double)(xMax - xMin )/ (double)(realWidth);
         pixelHeight = (double)(yMaxT - yMinT )/ (double)(height);

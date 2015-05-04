@@ -89,6 +89,7 @@ public class RationalFunction {
     
     public String showRoots() {
         String ans = "";
+        ArrayList<Double> roots = getRoots();
         for (int i = 0; i < roots.size(); i++) {
             ans += roots.get(i);
             if (!(i + 1 == roots.size())) ans += ", ";
