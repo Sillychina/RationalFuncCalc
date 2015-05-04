@@ -167,8 +167,6 @@ public class RationalFunction {
         // get the roots of the numerator and denominator
         ArrayList<Double> numRoots = this.numerator.getRoots();
         ArrayList<Double> denRoots = this.denominator.getRoots();
-        System.out.println(numerator);
-        System.out.println(numRoots);
         
         for (Double root : numRoots) {
             // add to critical points

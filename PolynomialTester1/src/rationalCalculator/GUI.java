@@ -364,13 +364,13 @@ public class GUI extends JFrame{
                 yIntAns2.setText(String.valueOf(func.evaluate(0.0)));
                 xIntAns2.setText(func.showRoots());
 
-                minAns2.setText(func.getLocalMins().toString());
-                maxAns2.setText(func.getLocalMaxes().toString());
-                incrAns2.setText(derivative1.positiveIntervals());
-                decrAns2.setText(derivative1.negativeIntervals());
-                poiAns2.setText(derivative2.changeOfSignPoints().toString().equals("[]") ? "none" : derivative2.changeOfSignPoints().toString());
-                upAns2.setText(derivative2.positiveIntervals());
-                downAns2.setText(derivative2.negativeIntervals());
+                minAns2.setText((func.getLocalMins().toString().equals("[]") ? "None" : func.getLocalMins().toString()));
+                maxAns2.setText((func.getLocalMaxes().toString().equals("[]") ? "None" : func.getLocalMaxes().toString()));
+                incrAns2.setText((derivative1.positiveIntervals().equals("") ? "None" : derivative1.positiveIntervals()));
+                decrAns2.setText((derivative1.negativeIntervals().equals("") ? "None" : derivative1.negativeIntervals()));
+                poiAns2.setText(derivative2.changeOfSignPoints().toString().equals("[]") ? "None" : derivative2.changeOfSignPoints().toString());
+                upAns2.setText((derivative2.positiveIntervals().equals("") ? "None" : derivative2.positiveIntervals()));
+                downAns2.setText((derivative2.negativeIntervals().equals("") ? "None" : derivative2.negativeIntervals()));
                 integralAns2.setText("" + func.integrate(intMin,intMax)); 
                  
                 String h = "";

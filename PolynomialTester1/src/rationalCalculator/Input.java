@@ -43,7 +43,6 @@ public class Input {
     }
     
     private static Polynomial parseGeneral(String arg) {
-        System.out.println(arg);
         ArrayList<Double> coefficients = new ArrayList<>(); // Arraylist of coefficients
         ArrayList<Integer> exponents = new ArrayList<>(); // Arraylist of exponents
         String signed = (arg.charAt(0) != '-' && arg.charAt(0) != '+') ? arg : "+" + arg;
@@ -69,6 +68,7 @@ public class Input {
                 }
                 int exponent = Integer.parseInt(exp);
                 if (exponent > expMax) expMax = exponent;
+                if (coe.equals("-")) coe = "-1";
                 coefficients.add(Double.parseDouble(coe));
                 exponents.add(Integer.parseInt(exp));
             }   

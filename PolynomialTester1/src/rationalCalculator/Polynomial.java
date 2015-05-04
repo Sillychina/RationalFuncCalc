@@ -282,7 +282,7 @@ public class Polynomial {
             Polynomial q = root.divide(p)[0];
             this.rootFinder(q);
         } else if (den == 0) {
-            this.newtonMethod(p, deriv, d + 1);
+            if (deriv.arguments.length > 2) this.newtonMethod(p, deriv, d + 1);
         } else {
             double e = d - num / den;
             num = p.evaluate(e);
@@ -358,7 +358,7 @@ public class Polynomial {
         }
     }
 
-        private String prettyInt(double d) { // Strip decimals from integers stored as doubles for prettier toString
+    private String prettyInt(double d) { // Strip decimals from integers stored as doubles for prettier toString
         return d == Math.round(d) ? "" + Math.round(d) : "" + d;
     }
 
@@ -369,7 +369,8 @@ public class Polynomial {
         if (last == 0) {
             poly = prettyInt(this.arguments[last]);
         } else if (last == 1) {
-            poly = prettyInt(this.arguments[last]) + "x";
+            if (!(this.arguments[last] == 0)) poly = prettyInt(this.arguments[last]) + "x";
+            else poly = "";
         } else {
             poly = prettyInt(this.arguments[last]) + "x^" + last;
         }
@@ -395,6 +396,7 @@ public class Polynomial {
             poly += prettyInt(this.arguments[0]);
         }  
         
+        if (poly.charAt(0) == '+') poly = poly.substring(1);
         poly = poly.replaceAll("-", " - ");
         poly = poly.replaceAll("\\+", " + ");
         return poly;

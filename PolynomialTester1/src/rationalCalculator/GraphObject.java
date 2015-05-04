@@ -60,6 +60,7 @@ public class GraphObject extends JPanel{
         yMinT = yMax;
         yMaxT = yMin;
          
+         
         if (fn == null || xMin == xMax || yMin == yMax){
             g.setColor(Color.red);
              
@@ -80,10 +81,9 @@ public class GraphObject extends JPanel{
         if (fn == null){
             return;
         }
-        
-        // make sure alpoints are there:
-        fn.findPoints();
          
+        fn.findPoints();
+        
         pixelWidth = (double)(xMax - xMin )/ (double)(realWidth);
         pixelHeight = (double)(yMaxT - yMinT )/ (double)(height);
          
@@ -115,13 +115,14 @@ public class GraphObject extends JPanel{
         Point[] pointPos = new Point[realWidth+5];
  
         //Draw holes
+        g.setColor(Color.red);
         for (double hole:fn.holes){
-             
+            /*
             //Create temporary function to evaluate y-pos of hole
             Polynomial div = new Polynomial("x - " + (int)hole);
-            System.out.println(" heyy");
+            //System.out.println(" heyy");
             for (double coeff:div.arguments){
-                System.out.println(coeff);
+                //System.out.println(coeff);
             }
             Polynomial numerAns = fn.numerator.divide(div)[0];
             RationalFunction temp = new RationalFunction(numerAns,fn.denominator.divide(denom)[0]);
@@ -130,15 +131,29 @@ public class GraphObject extends JPanel{
             System.out.println(yValHole);
             Point holePoint = getRealPixel(hole,yValHole);
             g.drawOval(holePoint.x-15,holePoint.y-15,30,30);
+            */
+            //Estimate position of hole by taking the average of the 2 points beside the hole
+            double x1 = hole-0.001;
+            double x2 = hole + 0.001;
+            double y1 = fn.evaluate(x1);
+            double y2 = fn.evaluate(x1);
+            Point hole1 = getRealPixel(x1,y1);
+            Point hole2 = getRealPixel(x2,y2);
+            Point estHole = new Point((hole1.x+hole2.x)/2,(hole2.y+hole1.y)/2);
+            g.drawOval(estHole.x-5,estHole.y-5,10,10);
+             
              
         }
          
          
-        //Draw HA
+        //Draw VA
         for (double ha:fn.asymptotes){
+             
             int xPosVA = (int) getRealPixel(ha,0).x;
             g.drawLine(xPosVA,0,xPosVA,height);
         }
+        g.setColor(Color.black);
+         
          
         //Get the positions of each pixel
         double deltaX = (double)(xMax-xMin)/realWidth;
