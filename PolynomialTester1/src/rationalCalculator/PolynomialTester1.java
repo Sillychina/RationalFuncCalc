@@ -5,7 +5,6 @@ public class PolynomialTester1 {
 
         
         new GUI(); // start the gui
-        //testCase8();
     }    
         
     public static void testCase1() {
@@ -92,8 +91,10 @@ public class PolynomialTester1 {
     }
     
     public static void testCase8() {
-        Polynomial a = new Polynomial("5x^2+5x-3");
-        Polynomial b = new Polynomial("3x^3+2x");
+        //Polynomial a = new Polynomial("5x^2+5x-3");
+        //Polynomial b = new Polynomial("3x^3+2x");
+        Polynomial a = new Polynomial("x^2");
+        Polynomial b = new Polynomial("1");
         RationalFunction func = new RationalFunction(a, b);
         RationalFunction derivative1 = func.derivative();
         RationalFunction derivative2 = derivative1.derivative();

@@ -163,10 +163,10 @@ public class Polynomial {
                 ans[i - 1] = this.arguments[i] * i;
             }
             Polynomial polyAns = new Polynomial(ans);
-            return polyAns;
+            return new Polynomial(polyAns.toString());
         } else {
             Polynomial polyAns = new Polynomial(new double[]{0});
-            return polyAns; //returns the derivative
+            return new Polynomial(polyAns.toString()); //returns the derivative
         }
 
     }

@@ -47,7 +47,6 @@ public class Input {
         ArrayList<Integer> exponents = new ArrayList<>(); // Arraylist of exponents
         String signed = (arg.charAt(0) != '-' && arg.charAt(0) != '+') ? arg : "+" + arg;
 
-        int expMax = 0; // Highest exponent in the function
         Scanner terms = new Scanner(arg);
         terms.useDelimiter("\\+");
         while (terms.hasNext()) {
@@ -67,19 +66,23 @@ public class Input {
                     exp = term.substring(index + 2, term.length());
                 }
                 int exponent = Integer.parseInt(exp);
-                if (exponent > expMax) expMax = exponent;
                 if (coe.equals("-")) coe = "-1";
                 coefficients.add(Double.parseDouble(coe));
                 exponents.add(Integer.parseInt(exp));
             }   
         }
         terms.close();
-
+        
+        int expMax = 0;
+        for (int i = 0; i < exponents.size(); i++) {
+            if (exponents.get(i) > expMax && coefficients.get(i) != 0.0) expMax = exponents.get(i);
+        }
+                
         // Create array
         double[] result = new double[expMax + 1];
         int size = coefficients.size();
         for (int i = 0; i < size; i++) {
-            result[exponents.get(i)] += coefficients.get(i);
+            if (coefficients.get(i) > 0.0) result[exponents.get(i)] += coefficients.get(i);
         }
         return new Polynomial(result);
     }

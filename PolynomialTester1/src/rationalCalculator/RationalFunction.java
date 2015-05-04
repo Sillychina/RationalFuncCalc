@@ -28,8 +28,8 @@ public class RationalFunction {
     public RationalFunction derivative() {
         Polynomial fprimeg = numerator.derivative().multiply(denominator);
         Polynomial fgprime = numerator.multiply(denominator.derivative());
-        Polynomial top = fprimeg.subtract(fgprime);
-        Polynomial bottom = denominator.multiply(denominator);
+        Polynomial top = new Polynomial(fprimeg.subtract(fgprime).toString());
+        Polynomial bottom = new Polynomial(denominator.multiply(denominator).toString());
         return new RationalFunction(top, bottom);
     }
     
@@ -100,13 +100,13 @@ public class RationalFunction {
     public String positiveIntervals() {
         String ans = "";
         // Create an arraylist of all the points where the function could cross the x axis
-        ArrayList<Double> points = getCriticalPoints();       
+        ArrayList<Double> points = getCriticalPoints();
         
         // Special case: horizontal line
         if (points.size() == 0) {
-            return evaluate(0) > 0 ? "(-infinity, infinity)" : "none";
+            return evaluate(0) > 0 ? "(-infinity, infinity)" : "None";
         }
-        
+                
         // Initial test
         if (evaluate(points.get(0) - 1) > 0) ans += "(-infinity, " + points.get(0) + ")";
         
@@ -118,8 +118,9 @@ public class RationalFunction {
             }
         }
         
+        
         // Final test
-        if (evaluate(points.get(points.size() - 1)) > 0) {
+        if (evaluate(points.get(points.size() - 1) + 1) > 0) {
             if (!ans.equals("")) ans += " U ";
             ans += "(" + points.get(points.size() - 1) + ", +infinity)";
         }
@@ -134,7 +135,7 @@ public class RationalFunction {
         
         // Special case: horizontal line
         if (points.size() == 0) {
-            return evaluate(0) < 0 ? "(-infinity, infinity)" : "none";
+            return evaluate(0) < 0 ? "(-infinity, infinity)" : "None";
         }
         
         // Initial test
@@ -149,7 +150,7 @@ public class RationalFunction {
         }
         
         // Final test
-        if (evaluate(points.get(points.size() - 1)) < 0) {
+        if (evaluate(points.get(points.size() - 1) + 1) < 0) {
             if (!ans.equals("")) ans += " U ";
             ans += "(" + points.get(points.size() - 1) + ", +infinity)";
         }
